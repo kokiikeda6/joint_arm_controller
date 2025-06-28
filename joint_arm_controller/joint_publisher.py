@@ -46,11 +46,13 @@ class PiperArmNode(Node):
 
         self.declare_parameter('joint1', 0.0, descriptor_joint1)
         self.declare_parameter('joint4', 0.0, descriptor_joint4)
+        self.declare_parameter('joint6', 0.0)
 
         self.add_on_set_parameters_callback(self.change_params)
 
         self.joint1 = self.get_parameter('joint1').get_parameter_value().double_value
         self.joint4 = self.get_parameter('joint4').get_parameter_value().double_value
+        self.joint6 = self.get_parameter('joint6').get_parameter_value().double_value
 
         self.piper = C_PiperInterface_V2("can0")
         self.piper.ConnectPort()
@@ -102,10 +104,10 @@ class PiperArmNode(Node):
         self.get_logger().info("received joint")
 
         # リーダフォロワ
-        self.position = [self.joint[0], self.joint[1], self.joint[2], self.joint[3], self.joint[4], self.joint[5], self.joint[6]]
+        # self.position = [self.joint[0], self.joint[1], self.joint[2], self.joint[3], self.joint[4], self.joint[5], self.joint[6]]
         
         # ジョイント制限リーダフォロワ
-        self.position = [self.joint1*math.pi/180, self.joint[1], self.joint[2], self.joint4, self.joint[4], self.joint[5], self.joint[6]]
+        self.position = [self.joint1*math.pi/180, self.joint[1], self.joint[2], self.joint4, self.joint[4], self.joint6, self.joint[6]]
 
 
         joint_values = [round(j * self.factor) for j in self.position[:6]]
