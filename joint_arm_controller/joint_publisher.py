@@ -103,11 +103,14 @@ class PiperArmNode(Node):
 
         self.get_logger().info("received joint")
 
+        self.joint5 = - self.joint[1] - self.joint[2]   # 手先を水平に保つ
+        # self.get_logger().info(f"total: {self.end_pose}")
+
         # リーダフォロワ
         # self.position = [self.joint[0], self.joint[1], self.joint[2], self.joint[3], self.joint[4], self.joint[5], self.joint[6]]
         
         # ジョイント制限リーダフォロワ
-        self.position = [self.joint1*math.pi/180, self.joint[1], self.joint[2], self.joint4, self.joint[4], self.joint6, self.joint[6]]
+        self.position = [self.joint1*math.pi/180, self.joint[1], self.joint[2], self.joint4, self.joint5, self.joint6, self.joint[6]]
 
 
         joint_values = [round(j * self.factor) for j in self.position[:6]]
